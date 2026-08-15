@@ -116,6 +116,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (themeText && themeText.length > 10000) {
+      return NextResponse.json(
+        { error: "Theme text too long (max 10,000 characters)" },
+        { status: 400 }
+      );
+    }
+
     const themeDescription = hasText
       ? `Theme: "${themeText.trim()}"`
       : `Content type: ${contentType ?? "image"} (see attached image)`;

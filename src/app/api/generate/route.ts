@@ -22,6 +22,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (body.textContent && body.textContent.length > 10000) {
+      return NextResponse.json(
+        { error: "Content too long (max 10,000 characters)" },
+        { status: 400 }
+      );
+    }
+
+    if (body.instructions && body.instructions.length > 5000) {
+      return NextResponse.json(
+        { error: "Instructions too long (max 5,000 characters)" },
+        { status: 400 }
+      );
+    }
+
     const result = await generateCaption(body);
     return NextResponse.json(result);
   } catch (error) {

@@ -26,6 +26,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No video file provided" }, { status: 400 });
   }
 
+  const ALLOWED_VIDEO_TYPES = ["video/mp4", "video/webm", "video/quicktime", "video/x-msvideo", "video/x-matroska"];
+  if (!ALLOWED_VIDEO_TYPES.includes(videoFile.type)) {
+    return NextResponse.json({ error: "Invalid video format" }, { status: 400 });
+  }
+
+  const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+  if (videoFile.size > MAX_VIDEO_SIZE) {
+    return NextResponse.json({ error: "Video too large (max 100MB)" }, { status: 400 });
+  }
+
   let settings: CaptionSettings;
   try {
     settings = JSON.parse(settingsJson ?? "{}");

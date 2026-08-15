@@ -39,6 +39,8 @@ export async function POST(request: NextRequest) {
 
   const imageUrls: string[] = [];
 
+  const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+
   const imagesToUpload: Array<{ base64: string; mimeType: string }> =
     Array.isArray(body.images) ? body.images :
     body.imageBase64 && body.imageMimeType ? [{ base64: body.imageBase64, mimeType: body.imageMimeType }] :
@@ -46,9 +48,11 @@ export async function POST(request: NextRequest) {
 
   for (let i = 0; i < imagesToUpload.length; i++) {
     const img = imagesToUpload[i];
+    if (!ALLOWED_IMAGE_TYPES.includes(img.mimeType)) continue;
     const ext = img.mimeType.split("/")[1] || "png";
     const fileName = `${user.id}/${Date.now()}-teaser-${i}.${ext}`;
     const buffer = Buffer.from(img.base64, "base64");
+    if (buffer.length > 10 * 1024 * 1024) continue; // skip images > 10MB
 
     const { error: uploadError } = await supabase.storage
       .from("generated-images")
@@ -60,7 +64,7 @@ export async function POST(request: NextRequest) {
     if (!uploadError) {
       const { data: urlData } = await supabase.storage
         .from("generated-images")
-        .createSignedUrl(fileName, 60 * 60 * 24 * 365 * 10);
+        .createSignedUrl(fileName, 60 * 60 * 24 * 7); // 7 days
       if (urlData?.signedUrl) {
         imageUrls.push(urlData.signedUrl);
       }

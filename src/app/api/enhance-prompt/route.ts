@@ -87,6 +87,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (prompt.length > 10000) {
+      return NextResponse.json(
+        { error: "Prompt too long (max 10,000 characters)" },
+        { status: 400 }
+      );
+    }
+
     const systemPrompt = target === "content"
       ? `You are a content writing expert for social media. Take the user's rough draft or notes and rewrite them into polished, engaging content ready for caption generation.
 
