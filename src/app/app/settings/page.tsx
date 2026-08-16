@@ -152,7 +152,7 @@ export default function SettingsPage() {
     return (
       <div className="space-y-8">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
           <p className="text-muted-foreground mt-1">Manage your preferences.</p>
         </div>
         <Card>
@@ -169,7 +169,7 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between animate-fade-in-up stagger-1">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
           <p className="text-muted-foreground mt-1">
             Set defaults for new content generation.
           </p>

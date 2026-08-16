@@ -11,7 +11,7 @@ import {
   ClockCounterClockwise,
   ChartBar,
   GearSix,
-  Sparkle,
+  PencilLine,
   List,
   X,
   SignOut,
@@ -68,25 +68,25 @@ export function AppSidebar({ user }: AppSidebarProps) {
         href={item.href}
         onClick={onClick}
         className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+          "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
           pathname === item.href
-            ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
-            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground hover:translate-x-0.5"
+            ? "bg-primary/10 text-primary"
+            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
         )}
       >
-        <item.icon className="h-4 w-4" weight={pathname === item.href ? "fill" : "duotone"} />
+        <item.icon className="h-4 w-4" weight={pathname === item.href ? "fill" : "regular"} />
         {item.label}
       </Link>
     ));
 
   const themeToggle = (
-    <div className="flex items-center gap-0.5 rounded-lg bg-muted p-1">
+    <div className="flex items-center gap-0.5 rounded-md bg-muted p-1">
       {themeOptions.map((opt) => (
         <button
           key={opt.value}
           onClick={() => setTheme(opt.value)}
           className={cn(
-            "flex items-center justify-center rounded-md p-1.5 transition-all",
+            "flex items-center justify-center rounded-sm p-1.5 transition-colors",
             theme === opt.value
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground"
@@ -101,12 +101,12 @@ export function AppSidebar({ user }: AppSidebarProps) {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between border-b bg-background/80 backdrop-blur-sm px-4 h-14 md:hidden">
-        <div className="flex items-center gap-2 font-semibold">
+      <div className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between border-b bg-background/90 backdrop-blur-sm px-4 h-14 md:hidden">
+        <div className="flex items-center gap-2.5">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Sparkle className="h-3.5 w-3.5" weight="fill" />
+            <PencilLine className="h-3.5 w-3.5" weight="fill" />
           </div>
-          <span>AI Content Gen</span>
+          <span className="font-heading text-sm font-semibold tracking-tight">AI Content Gen</span>
         </div>
         <Button
           variant="ghost"
@@ -142,7 +142,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
             {themeToggle}
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               <SignOut className="h-4 w-4" />
               Logout
@@ -153,19 +153,19 @@ export function AppSidebar({ user }: AppSidebarProps) {
 
       {/* Desktop sidebar */}
       <aside className="hidden md:flex w-56 shrink-0 flex-col border-r bg-sidebar">
-        <div className="flex items-center gap-2 px-4 h-14 border-b font-semibold">
+        <div className="flex items-center gap-2.5 px-4 h-14 border-b">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Sparkle className="h-3.5 w-3.5" weight="fill" />
+            <PencilLine className="h-3.5 w-3.5" weight="fill" />
           </div>
-          <span>AI Content Gen</span>
+          <span className="font-heading text-sm font-semibold tracking-tight">AI Content Gen</span>
         </div>
-        <nav className="flex-1 flex flex-col gap-1 p-3">{navLinks()}</nav>
+        <nav className="flex-1 flex flex-col gap-0.5 p-3">{navLinks()}</nav>
         <div className="px-3 pb-2">{themeToggle}</div>
         <div className="border-t p-3">
-          <div className="flex items-center gap-3 px-2">
+          <div className="flex items-center gap-3 px-1">
             <Avatar className="h-8 w-8">
               <AvatarImage src={user?.user_metadata?.avatar_url} />
-              <AvatarFallback className="text-xs bg-primary/10 text-primary">
+              <AvatarFallback className="text-xs bg-primary/10 text-primary font-heading">
                 {initials}
               </AvatarFallback>
             </Avatar>

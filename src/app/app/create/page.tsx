@@ -659,7 +659,7 @@ export default function CreatePage() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">
+            <h1 className="text-2xl font-semibold tracking-tight">
               Generated Content
             </h1>
             <p className="text-muted-foreground mt-1">
@@ -670,7 +670,7 @@ export default function CreatePage() {
 
         {/* Fallback notice */}
         {fallbackNotice && (
-          <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-4 text-sm text-amber-700 dark:text-amber-400 animate-fade-in-up flex items-center justify-between">
+          <div className="rounded-lg border border-warm/50 bg-warm/10 p-4 text-sm text-warm animate-fade-in-up flex items-center justify-between">
             <span>{fallbackNotice}</span>
             <button onClick={() => setFallbackNotice(null)} className="ml-3 shrink-0">
               <X className="h-4 w-4" />
@@ -828,8 +828,10 @@ export default function CreatePage() {
                 {generatedImages.map((img, i) => {
                   const isSelected = selectedImageIndices.has(i);
                   return (
-                    <button
+                    <div
                       key={`img-${i}`}
+                      role="button"
+                      tabIndex={0}
                       onClick={() => {
                         setSelectedImageIndices((prev) => {
                           const next = new Set(prev);
@@ -838,8 +840,19 @@ export default function CreatePage() {
                           return next;
                         });
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedImageIndices((prev) => {
+                            const next = new Set(prev);
+                            if (next.has(i)) next.delete(i);
+                            else next.add(i);
+                            return next;
+                          });
+                        }
+                      }}
                       className={cn(
-                        "group relative rounded-lg overflow-hidden border-2 transition-all btn-press",
+                        "group relative rounded-lg overflow-hidden border-2 transition-all btn-press cursor-pointer",
                         isSelected
                           ? "border-primary shadow-sm shadow-primary/20"
                           : "border-transparent opacity-50 hover:opacity-75"
@@ -877,7 +890,7 @@ export default function CreatePage() {
                       >
                         <Crop className="h-3.5 w-3.5" />
                       </button>
-                    </button>
+                    </div>
                   );
                 })}
                 {isGeneratingImages && Array.from({ length: Math.max(0, imageCount - generatedImages.filter((i) => !i.isUserUpload).length) }).map((_, n) => (
@@ -1198,7 +1211,7 @@ export default function CreatePage() {
   return (
     <div className="space-y-6 pb-12">
       <div className="animate-fade-in-up stagger-1">
-        <h1 className="text-2xl font-bold tracking-tight">Create Content</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Create Content</h1>
         <p className="text-muted-foreground mt-1">
           Upload a video, image, or enter text to generate captions.
         </p>

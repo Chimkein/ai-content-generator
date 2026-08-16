@@ -12,7 +12,6 @@ import {
   Image as ImageIcon,
   VideoCamera,
   Clock,
-  Sparkle,
   ArrowRight,
   ChartBar,
   CalendarBlank,
@@ -36,12 +35,6 @@ const typeIcons: Record<string, typeof FileText> = {
   text: FileText,
   image: ImageIcon,
   video: VideoCamera,
-};
-
-const typeColors: Record<string, string> = {
-  text: "bg-blue-500/10 text-blue-500",
-  image: "bg-emerald-500/10 text-emerald-500",
-  video: "bg-purple-500/10 text-purple-500",
 };
 
 export default function DashboardPage() {
@@ -112,7 +105,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-10">
       <div className="animate-fade-in-up stagger-1">
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-1">
           Create and manage your AI-generated content.
         </p>
@@ -120,54 +113,53 @@ export default function DashboardPage() {
 
       <Link
         href="/app/create"
-        className="group flex items-center gap-4 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 p-6 transition-all hover:border-primary/50 hover:bg-primary/10 hover:shadow-lg hover:shadow-primary/5 btn-press animate-fade-in-up stagger-2"
+        className="group flex items-center gap-4 rounded-xl border border-dashed border-primary/30 bg-primary/5 p-6 transition-colors hover:border-primary/50 hover:bg-primary/10 btn-press animate-fade-in-up stagger-2"
       >
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm group-hover:scale-110 transition-transform duration-200">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
           <PlusCircle className="h-6 w-6" weight="duotone" />
         </div>
         <div>
-          <p className="font-semibold text-foreground group-hover:text-primary transition-colors">
+          <p className="font-heading font-semibold text-foreground">
             Create Content
           </p>
           <p className="text-sm text-muted-foreground">
             Generate captions and teaser images from your content
           </p>
         </div>
-        <ArrowRight className="ml-auto h-5 w-5 text-primary/40 group-hover:text-primary/70 group-hover:translate-x-1 transition-all" />
+        <ArrowRight className="ml-auto h-5 w-5 text-primary/40 group-hover:text-primary/70 transition-colors" />
       </Link>
 
-      {/* Stats */}
       {!loading && allGenerations.length > 0 && (
         <div className="grid grid-cols-3 gap-3 animate-fade-in-up stagger-3">
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="p-4 flex items-center gap-3">
               <div className="rounded-lg bg-primary/10 p-2">
                 <ChartBar className="h-4 w-4 text-primary" weight="duotone" />
               </div>
               <div>
-                <p className="text-2xl font-bold tracking-tight">{stats.total}</p>
+                <p className="text-2xl font-heading font-semibold tracking-tight">{stats.total}</p>
                 <p className="text-xs text-muted-foreground">Total</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="p-4 flex items-center gap-3">
-              <div className="rounded-lg bg-emerald-500/10 p-2">
-                <CalendarBlank className="h-4 w-4 text-emerald-500" weight="duotone" />
+              <div className="rounded-lg bg-warm/10 p-2">
+                <CalendarBlank className="h-4 w-4 text-warm" weight="duotone" />
               </div>
               <div>
-                <p className="text-2xl font-bold tracking-tight">{stats.thisWeek}</p>
+                <p className="text-2xl font-heading font-semibold tracking-tight">{stats.thisWeek}</p>
                 <p className="text-xs text-muted-foreground">This week</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="p-4 flex items-center gap-3">
-              <div className="rounded-lg bg-purple-500/10 p-2">
-                <MusicNote className="h-4 w-4 text-purple-500" weight="duotone" />
+              <div className="rounded-lg bg-muted p-2">
+                <MusicNote className="h-4 w-4 text-muted-foreground" weight="duotone" />
               </div>
               <div>
-                <p className="text-2xl font-bold tracking-tight truncate max-w-[80px]">{stats.topTone}</p>
+                <p className="text-2xl font-heading font-semibold tracking-tight truncate max-w-[80px]">{stats.topTone}</p>
                 <p className="text-xs text-muted-foreground">Top tone</p>
               </div>
             </CardContent>
@@ -175,20 +167,18 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Pinned content */}
       {!loading && pinned.length > 0 && (
         <div className="animate-fade-in-up stagger-4">
           <div className="flex items-center gap-2 mb-5">
-            <Star className="h-4 w-4 text-amber-500" weight="fill" />
-            <h2 className="text-lg font-semibold">Pinned</h2>
+            <Star className="h-4 w-4 text-warm" weight="fill" />
+            <h2 className="font-heading text-lg font-semibold">Pinned</h2>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {pinned.map((gen, i) => {
               const Icon = typeIcons[gen.original_file_type] ?? FileText;
-              const iconColor = typeColors[gen.original_file_type] ?? "bg-primary/10 text-primary";
               const thumbUrl = parseImageUrls(gen.image_url)[0];
               return (
-                <Card key={gen.id} className={`group card-hover border-amber-500/20 hover:border-amber-500/40 animate-fade-in-up stagger-${i + 5}`}>
+                <Card key={gen.id} className={`group border-warm/20 hover:border-warm/40 transition-colors animate-fade-in-up stagger-${i + 5}`}>
                   <CardContent className="flex items-center gap-4 p-4">
                     {thumbUrl ? (
                       <img
@@ -197,12 +187,12 @@ export default function DashboardPage() {
                         className="h-12 w-12 rounded-lg object-cover shrink-0"
                       />
                     ) : (
-                      <div className={`rounded-lg p-2.5 ${iconColor} shrink-0 group-hover:scale-110 transition-transform duration-200`}>
+                      <div className="rounded-lg p-2.5 bg-primary/10 text-primary shrink-0">
                         <Icon className="h-4 w-4" weight="duotone" />
                       </div>
                     )}
                     <Link href="/app/history" className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
+                      <p className="text-sm font-medium truncate">
                         {gen.caption.slice(0, 80)}
                         {gen.caption.length > 80 ? "..." : ""}
                       </p>
@@ -229,7 +219,7 @@ export default function DashboardPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 shrink-0 text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="h-8 w-8 shrink-0 text-warm opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={(e) => {
                         e.preventDefault();
                         handleTogglePin(gen.id, false);
@@ -238,7 +228,7 @@ export default function DashboardPage() {
                       <Star className="h-3.5 w-3.5" weight="fill" />
                     </Button>
                     <Link href="/app/history" className="shrink-0">
-                      <ArrowRight className="h-4 w-4 text-muted-foreground/0 group-hover:text-muted-foreground group-hover:translate-x-0.5 transition-all duration-200" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground/0 group-hover:text-muted-foreground transition-all" />
                     </Link>
                   </CardContent>
                 </Card>
@@ -248,14 +238,13 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Recent content */}
       <div className="animate-fade-in-up stagger-4">
         <div className="flex items-center gap-2 mb-5">
           <Clock className="h-4 w-4 text-muted-foreground" weight="duotone" />
-          <h2 className="text-lg font-semibold">Recent content</h2>
+          <h2 className="font-heading text-lg font-semibold">Recent content</h2>
         </div>
         {loading ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
@@ -271,19 +260,18 @@ export default function DashboardPage() {
                 <FileText className="h-7 w-7 text-muted-foreground/60" weight="duotone" />
               </div>
               <div className="text-center">
-                <p className="font-medium text-foreground">No content yet</p>
+                <p className="font-heading font-medium text-foreground">No content yet</p>
                 <p className="text-sm mt-1">Create your first one to get started</p>
               </div>
             </CardContent>
           </Card>
         ) : recent.length > 0 ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {recent.map((gen, i) => {
               const Icon = typeIcons[gen.original_file_type] ?? FileText;
-              const iconColor = typeColors[gen.original_file_type] ?? "bg-primary/10 text-primary";
               const thumbUrl = parseImageUrls(gen.image_url)[0];
               return (
-                <Card key={gen.id} className={`group card-hover border-border/50 hover:border-primary/20 animate-fade-in-up stagger-${i + 5}`}>
+                <Card key={gen.id} className={`group transition-colors hover:border-primary/20 animate-fade-in-up stagger-${i + 5}`}>
                   <CardContent className="flex items-center gap-4 p-4">
                     {thumbUrl ? (
                       <img
@@ -292,12 +280,12 @@ export default function DashboardPage() {
                         className="h-12 w-12 rounded-lg object-cover shrink-0"
                       />
                     ) : (
-                      <div className={`rounded-lg p-2.5 ${iconColor} shrink-0 group-hover:scale-110 transition-transform duration-200`}>
+                      <div className="rounded-lg p-2.5 bg-primary/10 text-primary shrink-0">
                         <Icon className="h-4 w-4" weight="duotone" />
                       </div>
                     )}
                     <Link href="/app/history" className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
+                      <p className="text-sm font-medium truncate">
                         {gen.caption.slice(0, 80)}
                         {gen.caption.length > 80 ? "..." : ""}
                       </p>
@@ -333,7 +321,7 @@ export default function DashboardPage() {
                       <Star className="h-3.5 w-3.5" />
                     </Button>
                     <Link href="/app/history" className="shrink-0">
-                      <ArrowRight className="h-4 w-4 text-muted-foreground/0 group-hover:text-muted-foreground group-hover:translate-x-0.5 transition-all duration-200" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground/0 group-hover:text-muted-foreground transition-all" />
                     </Link>
                   </CardContent>
                 </Card>

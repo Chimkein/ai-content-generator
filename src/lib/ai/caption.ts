@@ -43,6 +43,25 @@ const LENGTH_GUIDE: Record<string, string> = {
   Long: "4-6 sentences, 100-200 words",
 };
 
+const TONE_GUIDE: Record<string, string> = {
+  Casual:
+    "Write like you're texting a friend — relaxed, conversational, warm. Use contractions, informal phrasing, and a laid-back vibe.",
+  Professional:
+    "Write in a polished, credible, and authoritative voice. Use clear and confident language suitable for a business or brand audience.",
+  Funny:
+    "Make it genuinely humorous — use wit, wordplay, puns, or absurd observations. The reader should smile or laugh. Don't be generic; be clever.",
+  Inspirational:
+    "Write something uplifting and motivating. Use powerful, emotional language that makes the reader feel empowered or moved to act.",
+  Educational:
+    "Teach the reader something valuable. Lead with an insight, fact, or tip. Use a clear, informative voice like a helpful expert sharing knowledge.",
+  Promotional:
+    "Write persuasive marketing copy. Highlight benefits, create urgency or excitement, and drive the reader toward action. Sell without being pushy.",
+  Storytelling:
+    "Tell a mini story — set a scene, build a moment, create a narrative arc. Draw the reader in with vivid details and emotional beats.",
+  "Gen Z":
+    "Write in an authentic Gen Z internet voice — use slang (slay, no cap, fr, lowkey, ate, understood the assignment), be self-aware and ironic, reference internet culture. Keep it real and unfiltered.",
+};
+
 function buildPrompt(request: CaptionRequest): string {
   const { settings, instructions, contentType, textContent } = request;
 
@@ -52,10 +71,14 @@ function buildPrompt(request: CaptionRequest): string {
     ? `\nIMPORTANT: The user has provided their own post image (attached). Your captions MUST describe and relate to this image. Use the additional instructions below as supporting context for the tone and angle, but the image is the primary subject of the caption.`
     : "";
 
+  const toneInstruction = TONE_GUIDE[settings.tone] ?? `Write in a ${settings.tone} tone.`;
+
   return `You are a social media content expert. Generate a caption for a ${contentType} post.
 
+TONE (THIS IS CRITICAL — the tone must be unmistakable in every caption):
+${settings.tone}: ${toneInstruction}
+
 SETTINGS:
-- Tone: ${settings.tone}
 - Length: ${LENGTH_GUIDE[settings.length] ?? settings.length}
 - Language: ${settings.language}
 - Include hashtags: ${settings.includeHashtags}
@@ -84,6 +107,7 @@ Rules for imagePrompts array:
 - Example: if the theme is coffee, one could focus on a close-up latte art shot, another on a cozy cafe scene, and another on beans being poured.
 
 Rules:
+- IMPORTANT: The "${settings.tone}" tone must be clearly felt in every caption. A reader should immediately recognize the tone without being told. If the tone is "Funny", the caption must actually be funny. If "Professional", it must sound polished and business-like. Do not write generic captions that could fit any tone.
 - Write the caption in ${settings.language}.
 - ${settings.includeEmojis ? "Use emojis naturally in the caption." : "Do not use emojis."}
 - ${settings.includeHashtags ? "Include 3-7 relevant hashtags." : "Return an empty hashtags array."}

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Sora, Outfit } from "next/font/google";
+import { Literata, Source_Sans_3 } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemedToaster } from "@/components/themed-toaster";
 import "./globals.css";
 
-const sora = Sora({
-  variable: "--font-sora",
+const literata = Literata({
+  variable: "--font-literata",
   subsets: ["latin"],
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const sourceSans = Source_Sans_3({
+  variable: "--font-source-sans",
   subsets: ["latin"],
 });
 
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${sora.variable} ${outfit.variable} h-full antialiased`}
+      className={`${literata.variable} ${sourceSans.variable} h-full antialiased`}
     >
       <head>
         <script

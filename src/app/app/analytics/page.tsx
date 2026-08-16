@@ -130,7 +130,6 @@ export default function AnalyticsPage() {
       }
     }
 
-    // Current streak: consecutive days (from today backwards) with >= 1 generation
     const dayBuckets: Record<string, number> = {};
     for (const g of generations) {
       const key = startOfDay(new Date(g.created_at))
@@ -170,13 +169,12 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-8">
       <div className="animate-fade-in-up stagger-1">
-        <h1 className="text-2xl font-bold tracking-tight">Analytics</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Analytics</h1>
         <p className="text-muted-foreground mt-1">
           Track your content generation activity over time.
         </p>
       </div>
 
-      {/* Time range selector */}
       <div className="flex gap-2 animate-fade-in-up stagger-2">
         {ranges.map((r) => (
           <Button
@@ -190,35 +188,28 @@ export default function AnalyticsPage() {
         ))}
       </div>
 
-      {/* Stats cards */}
       {!loading && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 animate-fade-in-up stagger-3">
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="p-4 flex items-center gap-3">
               <div className="rounded-lg bg-primary/10 p-2">
-                <ChartBar
-                  className="h-4 w-4 text-primary"
-                  weight="duotone"
-                />
+                <ChartBar className="h-4 w-4 text-primary" weight="duotone" />
               </div>
               <div>
-                <p className="text-2xl font-bold tracking-tight">
+                <p className="text-2xl font-heading font-semibold tracking-tight">
                   {stats.total}
                 </p>
                 <p className="text-xs text-muted-foreground">Total</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="p-4 flex items-center gap-3">
-              <div className="rounded-lg bg-emerald-500/10 p-2">
-                <TrendUp
-                  className="h-4 w-4 text-emerald-500"
-                  weight="duotone"
-                />
+              <div className="rounded-lg bg-warm/10 p-2">
+                <TrendUp className="h-4 w-4 text-warm" weight="duotone" />
               </div>
               <div>
-                <p className="text-2xl font-bold tracking-tight">
+                <p className="text-2xl font-heading font-semibold tracking-tight">
                   {stats.avg}
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -227,16 +218,13 @@ export default function AnalyticsPage() {
               </div>
             </CardContent>
           </Card>
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="p-4 flex items-center gap-3">
-              <div className="rounded-lg bg-amber-500/10 p-2">
-                <CalendarBlank
-                  className="h-4 w-4 text-amber-500"
-                  weight="duotone"
-                />
+              <div className="rounded-lg bg-muted p-2">
+                <CalendarBlank className="h-4 w-4 text-muted-foreground" weight="duotone" />
               </div>
               <div>
-                <p className="text-2xl font-bold tracking-tight">
+                <p className="text-2xl font-heading font-semibold tracking-tight">
                   {stats.busiestCount}
                 </p>
                 <p className="text-xs text-muted-foreground truncate max-w-[100px]">
@@ -245,13 +233,13 @@ export default function AnalyticsPage() {
               </div>
             </CardContent>
           </Card>
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="p-4 flex items-center gap-3">
-              <div className="rounded-lg bg-red-500/10 p-2">
-                <Fire className="h-4 w-4 text-red-500" weight="duotone" />
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Fire className="h-4 w-4 text-primary" weight="duotone" />
               </div>
               <div>
-                <p className="text-2xl font-bold tracking-tight">
+                <p className="text-2xl font-heading font-semibold tracking-tight">
                   {stats.streak}
                 </p>
                 <p className="text-xs text-muted-foreground">Day streak</p>
@@ -261,10 +249,9 @@ export default function AnalyticsPage() {
         </div>
       )}
 
-      {/* Chart */}
       <Card className="animate-fade-in-up stagger-4">
         <CardContent className="p-6">
-          <h2 className="text-sm font-semibold mb-4">
+          <h2 className="font-heading text-sm font-semibold mb-4">
             Generations per {stats.useWeeks ? "week" : "day"}
           </h2>
           {loading ? (

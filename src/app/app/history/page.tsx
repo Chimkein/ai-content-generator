@@ -62,9 +62,9 @@ const typeIcons: Record<string, typeof FileText> = {
 };
 
 const typeColors: Record<string, string> = {
-  text: "bg-blue-500/10 text-blue-500",
-  image: "bg-emerald-500/10 text-emerald-500",
-  video: "bg-purple-500/10 text-purple-500",
+  text: "bg-primary/10 text-primary",
+  image: "bg-warm/10 text-warm",
+  video: "bg-muted text-muted-foreground",
 };
 
 export default function HistoryPage() {
@@ -230,7 +230,7 @@ export default function HistoryPage() {
   return (
     <div className="space-y-8">
       <div className="animate-fade-in-up stagger-1">
-        <h1 className="text-2xl font-bold tracking-tight">History</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">History</h1>
         <p className="text-muted-foreground mt-1">
           Your previously generated content.
         </p>
@@ -241,7 +241,7 @@ export default function HistoryPage() {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <FolderOpen className="h-4 w-4 text-muted-foreground" weight="duotone" />
-            <h2 className="text-lg font-semibold">Folders</h2>
+            <h2 className="font-heading text-lg font-semibold">Folders</h2>
           </div>
           {!showNewFolder && (
             <Button
@@ -289,12 +289,12 @@ export default function HistoryPage() {
             className={cn(
               "group flex flex-col items-center justify-center gap-3 rounded-xl border p-6 text-center transition-all card-hover btn-press",
               activeFolder === null
-                ? "border-primary bg-primary/5 shadow-sm shadow-primary/10"
+                ? "border-primary bg-primary/5 ring-1 ring-primary/20"
                 : "border-border hover:border-muted-foreground/30 hover:bg-muted/30"
             )}
           >
             <div className={cn(
-              "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110",
+              "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105",
               activeFolder === null ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"
             )}>
               <FolderOpen className="h-6 w-6" weight={activeFolder === null ? "fill" : "duotone"} />
@@ -342,12 +342,12 @@ export default function HistoryPage() {
                     className={cn(
                       "flex w-full flex-col items-center justify-center gap-3 rounded-xl border p-6 text-center transition-all card-hover btn-press",
                       isActive
-                        ? "border-primary bg-primary/5 shadow-sm shadow-primary/10"
+                        ? "border-primary bg-primary/5 ring-1 ring-primary/20"
                         : "border-border hover:border-muted-foreground/30 hover:bg-muted/30"
                     )}
                   >
                     <div className={cn(
-                      "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110",
+                      "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105",
                       isActive ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"
                     )}>
                       <Folder className="h-6 w-6" weight={isActive ? "fill" : "duotone"} />
@@ -403,12 +403,12 @@ export default function HistoryPage() {
               className={cn(
                 "group flex flex-col items-center justify-center gap-3 rounded-xl border p-6 text-center transition-all card-hover btn-press border-dashed",
                 activeFolder === "unsorted"
-                  ? "border-primary bg-primary/5 shadow-sm shadow-primary/10"
+                  ? "border-primary bg-primary/5 ring-1 ring-primary/20"
                   : "border-border hover:border-muted-foreground/30 hover:bg-muted/30"
               )}
             >
               <div className={cn(
-                "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110",
+                "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105",
                 activeFolder === "unsorted" ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"
               )}>
                 <FileText className="h-6 w-6" weight={activeFolder === "unsorted" ? "fill" : "duotone"} />
@@ -431,7 +431,7 @@ export default function HistoryPage() {
       <div className="animate-fade-in-up stagger-4">
         <div className="flex items-center gap-2 mb-5">
           <FileText className="h-4 w-4 text-muted-foreground" weight="duotone" />
-          <h2 className="text-lg font-semibold">
+          <h2 className="font-heading text-lg font-semibold">
             {activeFolderName} content
           </h2>
           <Badge variant="secondary" className="text-xs">
@@ -519,7 +519,7 @@ export default function HistoryPage() {
                         </div>
                       </div>
                       {gen.is_pinned && (
-                        <Star className="h-3.5 w-3.5 text-amber-500 shrink-0" weight="fill" />
+                        <Star className="h-3.5 w-3.5 text-warm shrink-0" weight="fill" />
                       )}
                       <Button
                         variant="ghost"
@@ -619,7 +619,7 @@ export default function HistoryPage() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className={cn("btn-press", gen.is_pinned && "text-amber-500 hover:text-amber-600")}
+                            className={cn("btn-press", gen.is_pinned && "text-warm hover:text-warm/80")}
                             onClick={() => handleTogglePin(gen.id, !gen.is_pinned)}
                           >
                             <Star className="mr-1.5 h-3.5 w-3.5" weight={gen.is_pinned ? "fill" : "regular"} />
